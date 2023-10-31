@@ -1,6 +1,8 @@
 #include <iostream>
 #include "mathvector.h"
 
+
+
 MathVector::MathVector(int size): size_(size)
 {
     values_ = new double[10];
