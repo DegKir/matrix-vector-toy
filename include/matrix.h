@@ -13,9 +13,11 @@ public:
     Matrix& operator=(const Matrix&);
 	~Matrix();
 	int getSize();
+    Matrix getDiagonalMatrix();
     MathVector& operator [](int i);
     
 	friend std::ostream & operator <<(std::ostream & os, Matrix & matrix);
+    friend Matrix operator-( Matrix &lhs, Matrix &rhs);
     MathVector apply(MathVector & rhs);
 };
 

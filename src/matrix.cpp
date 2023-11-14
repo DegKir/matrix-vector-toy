@@ -25,8 +25,8 @@ Matrix& Matrix::operator=(const Matrix &other)
 {
     if (this != &other)
     {
-
-        delete[] rows_;
+        if(size_ != 0)
+            delete[] rows_;
         
         size_ = other.size_;
         rows_ = new MathVector[size_];
@@ -50,6 +50,28 @@ int Matrix::getSize()
 	return size_;
 }
 
+Matrix Matrix::getDiagonalMatrix()
+{
+    Matrix result(size_);
+    for(int i = 0; i < size_; i++)
+    {
+        result[i][i] = rows_[i][i];
+    }
+    return result;
+}
+
+Matrix operator-( Matrix &lhs, Matrix &rhs)
+{
+    Matrix result(lhs.size_);
+    for(int i = 0; i < lhs.size_; i++)
+    {
+        for(int j = 0; j < lhs.size_; j++)
+        {
+            result[i][j]=lhs[i][j]-rhs[i][j];
+        }
+    }
+    return result;
+}
 
 std::ostream & operator << (std::ostream & os, Matrix & matrix)
 {

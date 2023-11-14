@@ -9,11 +9,11 @@ MathVector ContractionMappingSolver::solve(Matrix &oper, MathVector &rhs, int it
 {
     int size = oper.getSize();
     MathVector x = getOnes(size);
-    MathVector step;
-    double stepCoef = 0.1;
+    MathVector step, im;
+    double stepCoef = 0.01;
     for(int i = 0; i < iterationNum; i++)
     {
-        auto im = oper.apply(x);
+        im = oper.apply(x);
         step = im - rhs;
         step = stepCoef*step;
         x = x + step;
@@ -23,3 +23,30 @@ MathVector ContractionMappingSolver::solve(Matrix &oper, MathVector &rhs, int it
 }
 
 ContractionMappingSolver::~ContractionMappingSolver() {}
+
+MathVector JacobiSolver::solve(Matrix &oper, MathVector &rhs, int iterationNum)
+{
+    int size = oper.getSize();
+    MathVector x = getOnes(size);
+    Matrix D = oper.getDiagonalMatrix();
+    Matrix DInv(size);
+    Matrix LpU(size);
+    
+    for(int i = 0; i < size; i++)
+    {
+        DInv[i][i]=1.0/D[i][i];
+    }
+    
+    LpU = oper - D;
+    
+    for(int i = 0; i < iterationNum; i++)
+    {
+        auto tmp = LpU.apply(x);
+        tmp = rhs-tmp;
+        x = DInv.apply(tmp);
+    }
+    
+    return x;
+}
+
+JacobiSolver::~JacobiSolver() {}

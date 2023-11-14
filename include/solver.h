@@ -15,3 +15,10 @@ public:
     MathVector solve(Matrix &oper, MathVector &rhs, int iterationNum) override;
     ~ContractionMappingSolver();
 };
+
+class JacobiSolver : public SolverInterface
+{
+public:
+    MathVector solve(Matrix &oper, MathVector &rhs, int iterationNum) override;
+    ~JacobiSolver();
+};
